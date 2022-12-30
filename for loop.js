@@ -1,3 +1,6 @@
+//went from foreach()to  for loop then back to foreach, but did not want to lose the 
+//for loop code since it was working.
+
 // we use `import axios from "axios"` which is another way of saying `const axios = require("axios")`
 // it is jsut better supported in the browser!
 import axios from "axios";
@@ -32,32 +35,38 @@ submitButton.addEventListener("click", function(){
     const addressInput = document.getElementById("address-input");
     console.log(addressInput.value)
     ownerAddr = addressInput.value;
-    document.getElementById(`all-nfts`).innerHTML = ownerAddr;
     config = {
         method: 'get',
         url: `${baseURL}?owner=${ownerAddr}`
-           
+    
     }
     axios(config)
     .then((response) => {
         console.log(response.data)
-
         // console.log(response.data.ownedNfts[1].metadata.image)
-        response.data.ownedNfts.forEach(element => {
-
-            imageUrl = element.media[0].gateway
-            // console.log(`here is imgUrl ${imageUrl}`)
+        for (let i=0; i<response.data.ownedNfts.length; i++){
+            console.log(response.data.ownedNfts.length)
+            //not sure why the forEach is giving the error at the end, so inserted above to use for loop
+        // response.data.ownedNfts.forEach(element => {
+            imageUrl = response.data.ownedNfts[i].media[0].gateway
+        //original line below    
+        //imageUrl = element.media[0].gateway
+            console.log(`here is imgUrl ${imageUrl}`)
             var img = new Image();
-            if (element.error != null || element.media[0].gateway === ``){
-                console.log(`no image`)
+             //replace element with response.data.ownedNfts[i] below
+           
+            if (response.data.ownedNfts[i].error != null || response.data.ownedNfts[i].media[0].gateway === ``){
+                console.log('no image')
             }
-            if(imageUrl.startsWith(`ipfs://`)){
+            else if(imageUrl.startsWith(`ipfs://`)){
                 console.log(imageUrl)
                 imageUrl = "https://ipfs.io/ipfs/"+imageUrl.slice(7)
             }
+            else {
             img.src = imageUrl;
             document.getElementById("all-nfts").appendChild(img);
-        });
+            }
+        };
         //below this is pre loop
         // var imageUrl = response.data.ownedNfts[0].metadata.image
         // var img = new Image();

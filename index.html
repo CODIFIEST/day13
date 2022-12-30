@@ -3,6 +3,27 @@
         <link rel="stylesheet" href="index.css">
       </head>
     <body>
+
+        <div>
+            <div id="main-container">
+                <!-- users will input an address to see the NFTs 
+                associated with that address -->
+                <div>
+                    <div>Enter your address below and click submit to see your NFTs</div>
+                    <input type="text" id="address-input" />
+                    <button id="submit-button">Submit</button>
+                </div> 
+                 <!--results will go here  -->
+                 <div>
+                    <h2>All ERC20 tokens</h2>
+                 </div>
+                 <div>
+                    <h2>All NFTs</h2>
+                    <div id="all-nfts"></div>
+                    
+                 </div>
+            </div>
+        </div>
         <script src="bundle.js"></script>
     </body>
 </html>
