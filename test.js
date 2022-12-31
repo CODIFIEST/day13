@@ -12,7 +12,6 @@ var imageUrl= ""
 //add an event listener using a const so we can reuse it.
 const submitButton = document.getElementById("submit-button");
 ///////---------------------------------------------------
-////----DON'T NEED THIS BECAUSE NOT USING THAT SHIT QUICKNODE--------
 //require web3 for quiknode
 //nvm quiknode sux balls
 // const Web3 = require("web3");
@@ -35,7 +34,7 @@ submitButton.addEventListener("click", function(){
     console.log(addressInput.value)
     ownerAddr = addressInput.value;
     //this line clears out the div with each submit and puts the owner's address up top
-    document.getElementById(`all-nfts`).innerHTML = ownerAddr + "<BR />";
+    document.getElementById(`all-nfts`).innerHTML = ownerAddr;
 //set the config with the actual owner address
     config = {
         method: 'get',
@@ -53,8 +52,6 @@ submitButton.addEventListener("click", function(){
             imageUrl = element.media[0].gateway
             // console.log(`here is imgUrl ${imageUrl}`)
             var img = new Image();
-            img.width = 200;
-            img.height = 200;
             if (element.error != null || element.media[0].gateway === ``){
                 console.log(`no image`)
             }
@@ -69,8 +66,11 @@ submitButton.addEventListener("click", function(){
         // var imageUrl = response.data.ownedNfts[0].metadata.image
         // var img = new Image();
         // img.src = imageUrl
-        // document.getElementById("all-nfts").appendChild(img);      
-    })
+        // document.getElementById("all-nfts").appendChild(img);
+      
+    }
+        
+    )
         // below is the old response, now getting data instead.
         // console.log(JSON.stringify(response.data, null, 2)))
     
@@ -148,85 +148,33 @@ ercButton.addEventListener("click", function(){
 //         // console.log(JSON.stringify(response.data, null, 2)))
     
 //     .catch(error =>console.log(error));
-//--------BELOW THIS LINE IS ERC20 ACTION
-    // Data for making the request to query token balances
-    const ERCdata = JSON.stringify({
-        jsonrpc: "2.0",
-        method: "alchemy_getTokenBalances",
-        headers: {
-        "Content-Type": "application/json",
-        },
-        params: [`${ownerAddr}`],
-        id: 42,
-    });
-    //   console.log(data);
-    // config object for making a request with axios
-    var ercConfig = {
-        method: "post",
-        url: baseERCURL,
-        headers: {
-            "Content-Type": "application/json",
-        },
-        data: ERCdata,
-    };
-    // console.log(ercConfig)
-    // Data for making the request to query token balances
-    async function ercDisplay(){
-        let answer = await axios(ercConfig);
-        answer = answer["data"];
-        //get the balances
-        const balances = answer["result"];
-        // console.log(answer)
-        // console.log(balances.tokenBalances)
-        //-------------this shit didn't remove zero
-        // //remove the zero balance tokens, there could be zillions
-        // const nonZero = await balances.tokenBalances.filter((token)=>{
-        //     return token.tokenBalance !== "0";
-        // });
-        // //------------this shit above doesn't work
-        //---new const for array to loop over
 
-        // console.log('verify token balances here')
-        // console.log(nonZero)
-        //for loop to get all of the non zero
-        let i=1;
- //old for loop       for (let token of nonZero){
-        for (let token of balances.tokenBalances){
-            let balance = token.tokenBalance;
-            // console.log(balance)
-    //optoins for the request
-            const options = {
-                method: "POST",
-                url: baseERCURL,
-                headers: {
-                    accept: "application/json",
-                    "content-type": "application/json",
-                },
-                data: {
-                    id: 1,
-                    jsonrpc: "2.0",
-                    method: "alchemy_getTokenMetadata",
-                    params: [token.contractAddress],
-                },
-            };
-            //get metadata
-            const metadata = await axios.request(options);
-            // console.log(`metadata`)
-            // console.log(metadata)
-            //     // Compute token balance in human-readable format
-            balance = balance / Math.pow(10, metadata["data"]["result"].decimals);
-            balance = balance.toFixed(2);
+// Data for making the request to query token balances
+var data = JSON.stringify({
+    jsonrpc: "2.0",
+    method: "alchemy_getTokenBalances",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    params: [`${ownerAddr}`],
+    id: 42,
+  });
+  console.log(data);
+// config object for making a request with axios
+var ercConfig = {
+  method: "post",
+  url: baseERCURL,
+  headers: {
+    "Content-Type": "application/json",
+  },
+  data: data,
+};
+console.log(ercConfig)
 
-        // Print name, balance, and symbol of token
-            // console.log(`${i++}. ${metadata["data"]["result"].name}: ${balance} ${
-            //     metadata["data"]["result"].symbol
-            // }`);
-            if(balance > 0){
-                document.getElementById("all-erc20").innerHTML += (`<br/>${i++}. ${metadata["data"]["result"].name}: ${balance} ${
-                    metadata["data"]["result"].symbol
-                }`);
-            }
-        }
-    }
-    ercDisplay();
+    axios(ercConfig)    
+    .then((answer) => {
+        console.log('erc data')
+        console.log(answer["data"]["result"])
+    }).catch((error) => console.log("error", error))
+
 });
