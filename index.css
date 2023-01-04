@@ -1,0 +1,71 @@
+body {
+    font-family: 'Source Sans Pro', sans-serif;
+    margin: 0px;
+    padding: 0px;
+    background: black;
+    color: aliceblue
+}
+
+.nft-row img {
+    max-width: 200px;
+}
+
+.nft-row {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.nft-column {
+    width: 24%;
+}
+
+.nft-column h2 {
+
+    font-size: 16px;
+    font-weight: 500;
+    color: #b4bbc3;
+
+}
+
+.nft-display {
+    margin: 5px;
+}
+
+.main-container {
+    display: flex;
+    justify-content: center;
+    margin: 11px 0px 0px 0px;
+}
+
+.input-default {
+    padding: 10px;
+    min-width: 300px;
+    background: #00000f;
+    border: 1px solid whitesmoke;
+    border-radius: 10px;
+    color: white;
+}
+
+.button-default {
+    padding: 10px 20px;
+    background: cornsilk;
+    border-radius: 10px;
+
+}
+
+.max-width {
+    max-width: 1000px;
+    margin: 0px auto;
+    overflow: hidden;
+}
+
+@media screen and (max-width: 600px) {
+    .nft-row {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .nft-column {
+        width: 100%;
+    }
+}

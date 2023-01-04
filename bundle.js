@@ -13,6 +13,8 @@ const baseERCURL = `https://eth-mainnet.g.alchemy.com/v2/${apiKey}`;
 //start with null strings for address and url
 var ownerAddr = "";
 var imageUrl = "";
+var imgName = "";
+var imgDesc = "";
 //add an event listener using a const so we can reuse it.
 const submitButton = document.getElementById("submit-button");
 ///////---------------------------------------------------
@@ -38,7 +40,7 @@ submitButton.addEventListener("click", function () {
   console.log(addressInput.value);
   ownerAddr = addressInput.value;
   //this line clears out the div with each submit and puts the owner's address up top
-  document.getElementById(`all-nfts`).innerHTML = ownerAddr + "<BR />";
+  // document.getElementById(`all-nfts`).innerHTML = ownerAddr + "<BR />";
   //set the config with the actual owner address
   config = {
     method: 'get',
@@ -46,14 +48,41 @@ submitButton.addEventListener("click", function () {
   };
   (0, _axios.default)(config).then(response => {
     console.log(response.data);
-
-    // console.log(response.data.ownedNfts[1].metadata.image)
-    response.data.ownedNfts.forEach(element => {
+    //we need the main table div
+    //this will hold the rows
+    const tableRow = document.createElement("div");
+    tableRow.classList.add('nft-row');
+    //we should be seting a const instead of using response.data.ownedNfts
+    var allNFTs = response.data.ownedNfts;
+    allNFTs.forEach(element => {
+      console.log(element.metadata.name);
+      console.log(element.media[0].gateway);
+      console.log(element.description);
+      // console.log(response.data.ownedNfts[1].metadata.image)
+      //-------replaceed per above using const instead
+      //response.data.ownedNfts.forEach(element => {
+      //--------------
+      // console.log(element.metadata.name)
+      //assign values to variables
+      imgName = element.metadata.name;
       imageUrl = element.media[0].gateway;
+      imgDesc = element.metadata.description;
       // console.log(`here is imgUrl ${imageUrl}`)
+
+      //create a div for each image column
+      const tableColumn = document.createElement("div");
+      tableColumn.classList.add('nft-column');
+
+      //set the name for each image
+      const displayName = document.createElement("h2");
+      displayName.innerHTML = imgName;
+
+      //create a div for each NFT
+      const displayImage = document.createElement("div");
+      displayImage.classList.add('nft-display');
       var img = new Image();
-      img.width = 200;
-      img.height = 200;
+      // img.width = 200;
+      // img.height = 200;
       if (element.error != null || element.media[0].gateway === ``) {
         console.log(`no image`);
       }
@@ -62,8 +91,20 @@ submitButton.addEventListener("click", function () {
         imageUrl = "https://ipfs.io/ipfs/" + imageUrl.slice(7);
       }
       img.src = imageUrl;
-      document.getElementById("all-nfts").appendChild(img);
+      console.log(imgName);
+      //instead of the below, use the H1, h2, h3 span created above for each
+      //   document.getElementById("nft-h3").innerHTML += element.metadata.name
+      //   document.getElementById("all-nfts").appendChild(img);
+      displayImage.appendChild(img);
+      tableColumn.appendChild(displayName);
+      tableColumn.appendChild(displayImage);
+      tableRow.appendChild(tableColumn);
     });
+
+    //append the rows to the main container.
+    document.getElementById("all-nfts").appendChild(tableRow);
+
+    //-------------------------------------
     //below this is pre loop
     // var imageUrl = response.data.ownedNfts[0].metadata.image
     // var img = new Image();

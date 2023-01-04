@@ -1,31 +1,41 @@
 <html>
-    <head>
-        <link rel="stylesheet" href="index.css">
-      </head>
-    <body>
 
-        <div>
-            <div id="main-container">
-                <!-- users will input an address to see the NFTs 
+<head>
+    <link rel="stylesheet" href="index.css">
+    <!-- add in sans serif font from google -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Source+Sans+Pro&display=swap" rel="stylesheet">
+</head>
+
+<body>
+
+    <div class="main-container">
+        <h2>Show me the stuff</h2>
+    </div>
+    <div class="main-container">
+        <!-- users will input an address to see the NFTs 
                 associated with that address -->
-                <div>
-                    <div>Enter your address below and click submit to see your NFTs</div>
-                    <input type="text" id="address-input" />
-                    <button id="submit-button">Show me NFTs</button>
-                    <button id="erc-button">Show me ERC20 tokens</button>
-                </div> 
-                 <!--results will go here  -->
-                 <div>
-                    <h2>All ERC20 tokens</h2>
-                    <div id="all-erc20"></div>
-                 </div>
-                 <div>
-                    <h2>All NFTs</h2>
-                    <div id="all-nfts"></div>
-                    
-                 </div>
-            </div>
-        </div>
-        <script src="bundle.js"></script>
-    </body>
+
+        <!-- <div>Enter your address below and click submit to see your NFTs</div> -->
+        <input class="input-default" placeholder="Type Eth address here" type="text" id="address-input" />
+        <button class="button-default" id="submit-button">Show me NFTs</button>
+        <button class="button-default" id="erc-button">Show me ERC20 tokens</button>
+    </div>
+    <!--results will go here  -->
+    <div class="max-width">
+        <h2>All ERC20 tokens</h2>
+        <div id="all-erc20"></div>
+    </div>
+
+    <h2 class="max-width">All NFTs</h2>
+
+    <div class="max-width" id="all-nfts"></div>
+
+
+
+
+    <script src="bundle.js"></script>
+</body>
+
 </html>
