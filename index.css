@@ -38,6 +38,7 @@ body {
 }
 
 .input-default {
+    margin: 0px 8px 0px 0px;
     padding: 10px;
     min-width: 300px;
     background: #00000f;
@@ -47,6 +48,7 @@ body {
 }
 
 .button-default {
+    margin: 0px 1px;
     padding: 10px 20px;
     background: cornsilk;
     border-radius: 10px;

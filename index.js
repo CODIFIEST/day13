@@ -37,7 +37,7 @@ submitButton.addEventListener("click", function () {
     console.log(addressInput.value)
     ownerAddr = addressInput.value;
     //this line clears out the div with each submit and puts the owner's address up top
-    // document.getElementById(`all-nfts`).innerHTML = ownerAddr + "<BR />";
+    document.getElementById(`all-nfts`).innerHTML = "<BR />";
     //set the config with the actual owner address
     config = {
         method: 'get',
@@ -87,20 +87,21 @@ submitButton.addEventListener("click", function () {
                 if (element.error != null || element.media[0].gateway === ``) {
                     console.log(`no image`)
                 }
-                if (imageUrl.startsWith(`ipfs://`)) {
-                    console.log(imageUrl)
-                    imageUrl = "https://ipfs.io/ipfs/" + imageUrl.slice(7)
+                else {
+                    if (imageUrl.startsWith(`ipfs://`)) {
+                        console.log(imageUrl)
+                        imageUrl = "https://ipfs.io/ipfs/" + imageUrl.slice(7)
+                    }
+                    img.src = imageUrl;
+                    console.log(imgName)
+                    //instead of the below, use the H1, h2, h3 span created above for each
+                    //   document.getElementById("nft-h3").innerHTML += element.metadata.name
+                    //   document.getElementById("all-nfts").appendChild(img);
+                    displayImage.appendChild(img);
+                    tableColumn.appendChild(displayName);
+                    tableColumn.appendChild(displayImage);
+                    tableRow.appendChild(tableColumn);
                 }
-                img.src = imageUrl;
-                console.log(imgName)
-                //instead of the below, use the H1, h2, h3 span created above for each
-                //   document.getElementById("nft-h3").innerHTML += element.metadata.name
-                //   document.getElementById("all-nfts").appendChild(img);
-                displayImage.appendChild(img);
-                tableColumn.appendChild(displayName);
-                tableColumn.appendChild(displayImage);
-                tableRow.appendChild(tableColumn);
-
             });
 
             //append the rows to the main container.
